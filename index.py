@@ -20,14 +20,13 @@ def getCurrentCourse(session, access_token):
     url = "https://qczj.h5yunban.com/qczj-youth-learning/cgi-bin/common-api/course/current?accessToken=" + access_token
     res = session.get(url)
     res_json = json.loads(res.text)
-    if (res_json["status"] == 200):  # 验证正常
+    if res_json["status"] == 200:  # 验证正常
         print("获取到最新课程代号:", res_json["result"]["id"])
         return res_json["result"]["id"]
     else:
         print("获取最新课程失败！")
         print(res.text)
         exit(0)
-        return None
 
 
 # 签到 成功返回True，失败返回False
@@ -72,7 +71,7 @@ def main():
                 openid = yaml_data['openid']
                 cardNo = yaml_data['cardNo']
                 nid = yaml_data['nid']
-                print("正在为用户’{}‘签到".format(cardNo))
+                print("正在为用户:’{}‘签到".format(cardNo))
 
                 session = requests.session()
                 session.headers = {
@@ -93,14 +92,16 @@ def main():
 
                 time.sleep(2)
             else:
-                print("配置文件’{}‘未启用!".format(yaml_file[i]))
+                print("配置文件:’{}‘未启用!".format(yaml_file[i]))
                 pass
 
         f.close()
 
 
 def main_handler(event, context):
-    return main()
+    main()
+
+    return 0
 
 
 if __name__ == '__main__':
